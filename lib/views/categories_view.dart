@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../cubit/categories_cubit/states.dart';
 
-
 class CategoriesView extends StatelessWidget {
   const CategoriesView({super.key});
 
@@ -50,34 +49,44 @@ class CategoriesView extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Expanded(
-                  child: CustomScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    slivers: [
-                      SliverGrid.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 1.4,
+                CategoriesCubit.get(context).categories.isEmpty
+                    ? const Center(
+                        child: Text(
+                          'No Categories Yet',
+                          style: TextStyle(
+                            fontSize: 30,
+                          ),
                         ),
-                        itemBuilder: (BuildContext context, int index) {
-                          return CategoryItem(
-                            color: index % 4 == 0
-                                ? colors[0]!
-                                : index % 4 == 1
-                                    ? colors[1]!
-                                    : index % 4 == 2
-                                        ? colors[2]!
-                                        : colors[3]!,
-                            index: index,
-                          );
-                        },
-                        itemCount:
-                            CategoriesCubit.get(context).categories.length,
+                      )
+                    : Expanded(
+                        child: CustomScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          slivers: [
+                            SliverGrid.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 1.4,
+                              ),
+                              itemBuilder: (BuildContext context, int index) {
+                                return CategoryItem(
+                                  color: index % 4 == 0
+                                      ? colors[0]!
+                                      : index % 4 == 1
+                                          ? colors[1]!
+                                          : index % 4 == 2
+                                              ? colors[2]!
+                                              : colors[3]!,
+                                  index: index,
+                                );
+                              },
+                              itemCount: CategoriesCubit.get(context)
+                                  .categories
+                                  .length,
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
